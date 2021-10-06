@@ -17,7 +17,7 @@ const FatchHooks = () => {
     if( ! users.length || ! Object.keys( user ).length ) {
         return '';
     }
-
+    console.log('Click');
     return(
         <section>
             <div>

@@ -1,35 +1,54 @@
 import React,{useState, useEffect} from "react";
 
 function FatchHooks(){
-    const [person,setPerson] = useState('Data ....');
-    const [next,setNext] = useState(1);
-    const [count,setCount] = useState(0);
-    
-    const url = "https://jsonplaceholder.typicode.com/users";
+    const [persons,setPersons] = useState([]);
+    const [person,setPerson] = useState({});
+    const [next,setNext] = useState(0);    
     useEffect(() => {
-        async function fetchData() {
-        const Response =await fetch(url);
-        const data =await Response.json();
-        // console.log(data[0]);
-        const Data = <div>{`Name : ${data[next-1].name}`} <br /> {`Web Site : ${data[next-1].website}`}
-        <br />{`Email Id : ${data[next-1].email}`}
-        <br />{`User Name : ${data[next-1].username}`}
-        <br />{`Phone : ${data[next-1].phone}`}
-        <br />{`Address :`}
-        <br />{`    City - ${data[next-1].address.city}`}
-        </div>;
-        setPerson(Data);
-        setCount(data.length);
-        }
-        fetchData();
-    },[next])
-    console.log('CHECK RENDERING :',(next<count)?{next}:"Bad");
+        fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response => response.json() )
+        .then(data =>{
+            setPerson(data[0]);
+            setPersons(data);
+        });       
+    },[]);
+    if(!persons.length || !Object.keys(person).length){
+        return '';
+    }
     return(
     <section>
-        <p>Parson ID is : {next} </p>
-        <div>{person}</div>
-        <button onClick={()=>(next>1)?setNext(next-1):setNext(count)}>{`<= Previouse`}</button>
-        <button onClick={()=>(next<count)?setNext(next+1):setNext(1)}>{`Next =>`}</button>
+        <div>
+            <p>{`Parson ID is : ${next}`} </p>
+            {`Name : ${person.name}`} <br />
+            {`Web Site : ${person.website}`}<br />
+            {`Email Id : ${person.email}`}<br />
+            {`User Name : ${person.username}`}<br />
+            {`Phone : ${person.phone}`}<br />
+            {`Address :`}<br />
+            {`City - ${person.address.city}`}
+        </div>
+        <button onClick={()=>{
+                if(next>0)
+                    setNext(next-1); 
+                else
+                    setNext(persons.length-1) ;
+                console.log('NEXT',next)
+                setPerson(persons[next]);//error in next
+            }}>
+                {`<= Previouse`}
+        </button>
+        <button onClick={
+            ()=>{
+                // console.log(persons.length-1)
+                if(next<persons.length-1)
+                    setNext(next+1)
+                else
+                    setNext(0);
+                setPerson(persons[next]);// Error in next
+                }
+            }>
+                {`Next =>`}
+        </button>
     </section>)
 }
 
