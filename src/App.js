@@ -1,15 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
-// import FatchData from './Componats/Read data from remote';
-import FatchHooks from './Componats/fatch_using_Hooks';
+import React from 'react';
+import reactDom from 'react-dom';
+import './App.css'; 
+import TodoList from './Todo-App/TodoList';
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        {/* <FatchData /> */}
-        <FatchHooks />
-      </header>
+    <div className="todo-app">
+      {/* <TodoForm /> */}
+      <TodoList />
     </div>
   );
 }
